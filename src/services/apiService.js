@@ -1,6 +1,13 @@
 // Base URL of your Express backend
 // In production this becomes your deployed server URL
-const API_BASE = 'http://localhost:3001/api'
+// Same environment-aware pattern we used in the backend's db/index.js.
+// Vite exposes any variable prefixed with VITE_ from your .env file
+// through import.meta.env. When VITE_API_URL is set (which it will
+// be, once deployed on Render), we use the live backend URL.
+// Locally, where that variable won't exist, we fall back to localhost.
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : 'http://localhost:3001/api'
 
 // Helper function that makes authenticated requests
 // Every protected API call needs the JWT token in the header

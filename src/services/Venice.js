@@ -37,6 +37,7 @@ export async function getGiftSuggestions({ recipientName, budget, occasion }) {
     const response = await fetch(GEMINI_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      x-goog-api-key: GEMINI_API_KEY,
       body: JSON.stringify({
         contents: [{
           parts: [{

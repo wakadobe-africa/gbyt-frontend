@@ -69,7 +69,12 @@ no extra commentary before or after. Match this EXACT shape:
   "tip": "One closing tip for the user"
 }
 
-Provide exactly 3 options. Each option's total must not exceed ₦${Number(budget)}.
+Provide exactly 3 options. Follow these budget rules STRICTLY:
+- Each option's total MUST be between 75% and 100% of the budget
+- That means between ₦${Math.round(Number(budget) * 0.75).toLocaleString()} and ₦${Number(budget).toLocaleString()}
+- Combine multiple items to reach this range — do not suggest single items unless the budget is very small
+- If one combination uses fewer items, add complementary items (wrapping, card, accessory) to reach the target range
+- Never suggest a combination totaling less than ₦${Math.round(Number(budget) * 0.75).toLocaleString()}
 Return ONLY the JSON object, nothing else.`
           }]
         }],
@@ -103,9 +108,24 @@ Return ONLY the JSON object, nothing else.`
     // object we can actually work with — access .options, loop
     // over them, etc. Before this line, it's just text that LOOKS
     // like an object but isn't one yet.
-    const parsed = JSON.parse(cleanedText)
-
-    return parsed
+     const parsed = JSON.parse(cleanedText)
+    // Soft validation — log a warning if any option's total is
+// significantly under budget despite our new prompt instructions.
+// This never breaks the user experience, but tells YOU in the
+// console if Gemini is still ignoring the budget range guidance,
+// which would mean the prompt needs further tuning.
+      const budgetNum = Number(budget)
+      parsed.options?.forEach((option, index) => {
+      const utilizationPercent = Math.round((option.total / budgetNum) * 100)
+        if (utilizationPercent < 75) {
+          console.warn(
+            `Option ${index + 1} only uses ${utilizationPercent}% of budget ` +
+            `(₦${option.total.toLocaleString()} of ₦${budgetNum.toLocaleString()}). ` +
+            `Consider tuning the prompt further.`
+          )
+        }
+      })
+      return parsed
 
   } catch (error) {
     console.error('Gemini API error:', error)

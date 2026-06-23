@@ -795,3 +795,39 @@ button:disabled {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* Budget utilization indicator */
+.option-utilization {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.utilization-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.utilization-fill {
+  height: 100%;
+  /* Color transitions from amber (low utilization) to green
+     (good utilization) — we use green since our prompt now
+     ensures we're always in a good range */
+  background: linear-gradient(
+    90deg,
+    #f59e0b,   /* amber — low end of range */
+    #10b981    /* green — high end of range */
+  );
+  border-radius: 4px;
+  /* Smooth animation when the bar first renders — makes the
+     reveal feel deliberate and satisfying rather than instant */
+  transition: width 0.8s ease-out;
+}
+
+.utilization-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}

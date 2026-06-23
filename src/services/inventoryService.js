@@ -76,7 +76,7 @@ export async function fetchInventory(category) {
 }
 
 export async function fetchInventoryForBudget(budget) {
-  const categoriesToSearch = ['chocolate', 'beverages', 'snacks', 'cosmetics']
+  const categoriesToSearch = ['chocolate', 'beverages', 'snacks', 'cosmetics','Biscuits','Coffee','Tea']
 
   const results = await Promise.allSettled(
     categoriesToSearch.map(category => fetchInventory(category))

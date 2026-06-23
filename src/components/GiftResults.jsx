@@ -1,7 +1,7 @@
 // GiftResults now receives a STRUCTURED object, not a plain string.
 // This means we can render semantic HTML — a description list
 // (<dl>) per gift option — instead of dumping raw text into a div.
-function GiftResults({ suggestions }) {
+function GiftResults({ suggestions, budget }) {
 
   // suggestions is now an OBJECT, not a string. If it's null/undefined
   // (no search performed yet), render nothing — same guard as before.
@@ -63,9 +63,35 @@ function GiftResults({ suggestions }) {
             readability, same utility we've used throughout the app
           */}
           <dd className="option-total">
+            
             ₦{Number(option.total).toLocaleString()}
           </dd>
-
+          {/* Budget utilization bar — shows what percentage of the total
+    budget this option uses. This makes the budget-targeting logic
+    VISIBLE to the user rather than invisible, which builds trust
+    that the system is genuinely trying to use their budget well,
+    not just suggesting cheap items that happen to fit. */}
+          <dt>Budget Used</dt>
+          <dd className="option-utilization">
+            <div className="utilization-bar">
+              <div
+                className="utilization-fill"
+                style={{
+                  // Calculate what percentage of budget this option uses,
+                  // capped at 100% so the bar never overflows its container
+                  // even if rounding produces a value slightly over budget
+                  width: `${Math.min(
+                    Math.round((option.total / Number(budget)) * 100),
+                    100
+                  )}%`
+                }}
+              />
+            </div>
+            <span className="utilization-label">
+              {Math.round((option.total / Number(budget)) * 100)}% of budget
+              (₦{Number(option.total).toLocaleString()} of ₦{Number(budget).toLocaleString()})
+            </span>
+          </dd>
           <dt>Why it fits</dt>
           <dd className="option-reason">{option.reason}</dd>
 

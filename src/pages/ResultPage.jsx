@@ -8,7 +8,6 @@ function ResultsPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const { token, isLoggedIn } = useAuth()
-
   const [isSaving, setIsSaving] = useState(false)
   const [isSaved,  setIsSaved]  = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -60,7 +59,7 @@ function ResultsPage() {
         <p>{occasion} · Budget: ₦{Number(budget).toLocaleString()}</p>
       </div>
 
-      <GiftResults suggestions={suggestions} />
+      <GiftResults suggestions={suggestions} budget={budget} />
 
       {saveError && (
         <div className="error-message">⚠️ {saveError}</div>

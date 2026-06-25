@@ -51,6 +51,23 @@ export async function fetchInventory(category) {
 
     const response = await fetch(url)
 
+
+
+    // Distinguish between types of failures:
+    // 404 from OUR OWN backend = infrastructure problem
+    // (route missing, server down) — this should be loud
+    // so we can catch it immediately during development
+    if (response.status === 404) {
+      // Throw instead of returning empty — this surfaces
+      // immediately in the console as a real error rather
+      // than silently producing an empty product list that
+      // makes the user think their budget is too low
+      throw new Error(
+        `Inventory route not found (404). ` +
+        `Check that /api/inventory is registered in index.js ` +
+        `and the backend has restarted.`
+      )
+    }
     if (!response.ok) {
       throw new Error(`Inventory API returned ${response.status}`)
     }
@@ -76,12 +93,23 @@ export async function fetchInventory(category) {
 }
 
 export async function fetchInventoryForBudget(budget) {
-  const categoriesToSearch = ['chocolate', 'beverages', 'snacks', 'cosmetics','Biscuits','Coffee','Tea']
+  const categoriesToSearch = ['chocolate', 'beverages', 'snacks', 'cosmetics','biscuits','coffee','tea']
 
   const results = await Promise.allSettled(
     categoriesToSearch.map(category => fetchInventory(category))
   )
-
+  //Check if ALL requests failed — if so, it's almost certainly
+  // an infrastructure problem, not a "no products" situation
+  const allFailed = results.every(r => r.status === 'rejected')
+  if (allFailed) {
+    // Throw a clear infrastructure error that will bubble up
+    // to SearchPage and show the user a meaningful message
+    // instead of "try increasing your budget"
+    throw new Error(
+      'Unable to fetch product inventory. ' +
+      'This is likely a backend configuration issue, not a budget problem.'
+    )
+  }
   const successfulResults = results
     .filter(result => result.status === 'fulfilled')
     .map(result => result.value)

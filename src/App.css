@@ -831,3 +831,140 @@ button:disabled {
   font-size: 0.8rem;
   color: var(--text-light);
 }
+
+/* ── TWO-STEP FORM STYLES ─────────────────────────────── */
+
+/* Step indicator — the 1 ── 2 progress tracker */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  gap: 0;
+}
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.step-dot.active {
+  background: var(--primary);
+  color: white;
+}
+
+.step-line {
+  height: 2px;
+  width: 60px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.step-line.active {
+  background: var(--primary);
+}
+
+/* Step header */
+.step-header {
+  margin-bottom: 24px;
+}
+
+.step-header h2 {
+  margin-bottom: 4px;
+}
+
+.step-header p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Reason grid — tappable occasion cards */
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.reason-card {
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  width: auto;
+  font-weight: 500;
+}
+
+.reason-card:hover {
+  border-color: var(--primary);
+  background: rgba(108, 99, 255, 0.04);
+  transform: none;  /* override the general button hover lift */
+}
+
+/* Selected state — visually distinct from hover */
+.reason-card.selected {
+  border-color: var(--primary);
+  background: rgba(108, 99, 255, 0.1);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Optional label — inline with the field label */
+.optional-label {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Textarea — consistent with input styling */
+.field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--background);
+  transition: border-color 0.2s;
+  outline: none;
+  resize: vertical;   /* allow vertical resize, not horizontal */
+  font-family: inherit; /* textarea doesn't inherit font by default */
+  line-height: 1.5;
+}
+
+.field textarea:focus {
+  border-color: var(--primary);
+}
+
+/* Form actions row — back + submit side by side */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.form-actions .secondary-button {
+  flex-shrink: 0;  /* don't let back button shrink */
+}
+
+.form-actions .cta-button {
+  flex: 1;         /* submit button takes remaining space */
+  text-align: center;
+}

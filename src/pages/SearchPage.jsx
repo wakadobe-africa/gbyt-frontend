@@ -10,41 +10,42 @@ function SearchPage() {
   const [error, setError] = useState(null)
 
   async function handleFormSubmit(formData) {
-    setIsLoading(true)
-    setError(null)
+      setIsLoading(true)
+      setError(null)
 
     try {
       const suggestions = await getGiftSuggestions(formData)
 
-      // NEW — check if the AI service returned an error-shaped
-      // response (message set, no options) even though it didn't
-      // technically throw. Remember: our error fallback returns
-      // { message: '...', options: [] } instead of throwing,
-      // so we check for that shape here and treat it as a soft
-      // error the user should see clearly, not navigate past
       if (suggestions.options.length === 0 && suggestions.message) {
         setError(suggestions.message)
         setIsLoading(false)
         return
       }
 
-      navigate('/results', {
-        state: {
-          suggestions,
-          recipientName: formData.recipientName,
-          budget: formData.budget,
-          occasion: formData.occasion
-        }
-      })
+    // Pass ALL formData fields through to ResultsPage via
+    // navigation state — Ticket 4's richer prompt needs
+    // relationship, date_of_birth, and personality_notes
+    // to be available when saving the gift search too
+    navigate('/results', {
+      state: {
+        suggestions,
+        recipientName:    formData.recipientName,
+        budget:           formData.budget,
+        occasion:         formData.occasion,
+        relationship:     formData.relationship,
+        date_of_birth:    formData.date_of_birth,
+        personality_notes: formData.personality_notes
+      }
+    })
 
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setIsLoading(false)
+  } catch (err) {
+    setError(err.message)
+  } 
+  finally {
+    setIsLoading(false)
     }
   }
-
-  return (
+return (
     <div className="search-page">
       <div className="search-header">
         <h1>Find a Gift</h1>
@@ -60,11 +61,11 @@ function SearchPage() {
         isLoading={isLoading}
       />
 
-      {/* Show the skeleton WHILE loading, replacing the old generic
-          "Finding gifts..." text with a structured visual preview */}
       {isLoading && <GiftResultsSkeleton />}
     </div>
   )
 }
+
+  
 
 export default SearchPage

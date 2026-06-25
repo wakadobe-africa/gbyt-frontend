@@ -12,7 +12,15 @@ function ResultsPage() {
   const [isSaved,  setIsSaved]  = useState(false)
   const [saveError, setSaveError] = useState(null)
 
-  const { suggestions, recipientName, budget, occasion } = location.state || {}
+  const {
+  suggestions,
+  recipientName,
+  budget,
+  occasion,
+  relationship,
+  date_of_birth,
+  personality_notes
+} = location.state || {}
 
   if (!suggestions) {
     return (
@@ -24,33 +32,34 @@ function ResultsPage() {
     )
   }
 
-  async function handleSave() {
-    if (!isLoggedIn) {
-      // Redirect to login if not authenticated
-      navigate('/login')
-      return
-    }
-
-    setIsSaving(true)
-    setSaveError(null)
-
-    try {
-      await saveGiftSearch({
-        occasion,
-        budget,
-        suggestions,
-        recipient_name: recipientName
-      }, token)
-
-      // Mark as saved so button changes
-      setIsSaved(true)
-
-    } catch (err) {
-      setSaveError('Failed to save. Please try again.')
-    } finally {
-      setIsSaving(false)
-    }
+async function handleSave() {
+  if (!isLoggedIn) {
+    navigate('/login')
+    return
   }
+
+  setIsSaving(true)
+  setSaveError(null)
+
+  try {
+    await saveGiftSearch({
+      occasion,
+      budget,
+      suggestions: JSON.stringify(suggestions),
+      recipient_name:    recipientName,
+      relationship,
+      date_of_birth,
+      personality_notes
+    }, token)
+
+    setIsSaved(true)
+
+  } catch (err) {
+    setSaveError('Failed to save. Please try again.')
+  } finally {
+    setIsSaving(false)
+  }
+}
 
   return (
     <div className="results-page">

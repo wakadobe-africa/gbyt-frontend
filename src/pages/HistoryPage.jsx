@@ -86,7 +86,7 @@ function HistoryPage() {
 
               <div className="history-card-header">
                 <div>
-                  <h3>{recipientName}-{item.occasion}</h3>
+                  <h3>{item.recipient_name}-{item.occasion}</h3>
                   <p className="history-meta">
                     Budget: ₦{Number(item.budget).toLocaleString()} ·{' '}
                     {formatDate(item.created_at)}

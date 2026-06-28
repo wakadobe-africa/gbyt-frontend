@@ -60,7 +60,8 @@ export function AuthProvider({ children }) {
     isLoading,  // true while checking localStorage on startup
     login,      // function to call after successful auth
     logout,     // function to call when logging out
-    isLoggedIn: !!user  // boolean shortcut — !! converts to true/false
+    isLoggedIn: !!user,  // boolean shortcut — !! converts to true/false
+    isAdmin: user?.role === 'admin'
   }
 
   // While checking localStorage, render nothing

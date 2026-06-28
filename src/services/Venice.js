@@ -90,8 +90,13 @@ export async function getGiftSuggestions({
   relationship,
   date_of_birth,
   personality_notes,
-  zodiac_sign       // passed through if already known from a saved recipient
-}) {
+  zodiac_sign,
+  gender,
+         // passed through if already known from a saved recipient
+}) 
+
+
+  {
 
   const affordableItems = await fetchInventoryForBudget(budget)
 
@@ -131,12 +136,17 @@ export async function getGiftSuggestions({
     ? `Known about ${recipientName}: ${personality_notes}`
     : ''
 
+
+  const genderNote = gender && gender !== 'unspecified'
+  ? `${recipientName}'s gender: ${gender}`
+  : ''
   // Combine all recipient context into one clean block,
   // filtering out any empty pieces so the prompt stays tight
   const recipientContext = [
     relationshipNote,
     zodiacNote,
-    personalityNote
+    personalityNote,
+    genderNote
   ].filter(Boolean).join('\n')
 
   async function callGemini() {

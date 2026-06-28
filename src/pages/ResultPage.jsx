@@ -49,7 +49,8 @@ async function handleSave() {
       recipient_name:    recipientName,
       relationship,
       date_of_birth,
-      personality_notes
+      personality_notes,
+      gender
     }, token)
 
     setIsSaved(true)

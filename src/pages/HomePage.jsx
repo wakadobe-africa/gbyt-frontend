@@ -24,7 +24,7 @@ function HomePage() {
 
           <p className="hero-subtitle">
             Tell us your budget and recipient. GiftMap's AI finds
-            thoughtful gift combinations from stores near you.
+            thoughtful gift combinations for the peopleto celebrate relationships and milestones.
           </p>
 
           {/* Primary CTA - this is the most important button on the page */}

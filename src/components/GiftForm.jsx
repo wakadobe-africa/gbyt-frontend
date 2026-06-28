@@ -48,11 +48,20 @@ const RELATIONSHIP_OPTIONS = [
   { value: 'other',      label: '👤 Other'                },
 ]
 
+
+const GENDER_OPTIONS = [
+  { value: 'female',     label: '👩 Female'          },
+  { value: 'male',       label: '👨 Male'             },
+  { value: 'nonbinary',  label: '🧑 Non-binary'       },
+  { value: 'unspecified',label: '🤷 Prefer not to say' },
+]
+
+
 function GiftForm({ onSubmit, isLoading }) {
 
   // Which step we're on — 1 or 2
   const [step, setStep] = useState(1)
-
+  
   // Step 1 fields
   const [budget,      setBudget]      = useState('')
   const [reason,      setReason]      = useState('')
@@ -61,6 +70,7 @@ function GiftForm({ onSubmit, isLoading }) {
   // Step 2 fields
   const [recipientName,     setRecipientName]     = useState('')
   const [relationship,      setRelationship]      = useState('')
+  const [gender, setGender] = useState('')
   const [dateOfBirth,       setDateOfBirth]       = useState('')
   const [personalityNotes,  setPersonalityNotes]  = useState('')
 
@@ -127,6 +137,7 @@ function GiftForm({ onSubmit, isLoading }) {
       relationship,
       date_of_birth:    dateOfBirth || null,
       personality_notes: personalityNotes.trim() || null,
+      gender:            gender || null,
     })
   }
 
@@ -245,7 +256,21 @@ function GiftForm({ onSubmit, isLoading }) {
           ))}
         </select>
       </div>
-
+      <div className="field">
+        <label>Gender</label>
+        <div className="gender-grid">
+          {GENDER_OPTIONS.map(option => (
+            <button
+              key={option.value}
+              type="button"
+              className={`gender-card ${gender === option.value ? 'selected' : ''}`}
+              onClick={() => setGender(option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
       <div className="field">
         {/* Date of birth is optional — clearly labeled so users
             don't feel blocked if they don't know or want to share it */}

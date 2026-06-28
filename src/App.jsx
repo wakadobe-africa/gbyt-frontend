@@ -1,6 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import { AuthProvider }  from './context/AuthContext'
-import { Link }          from 'react-router-dom'
 import Navbar            from './components/Navbar'
 import ProtectedRoute    from './components/ProtectedRoute'
 import HomePage          from './pages/HomePage'
@@ -10,6 +9,10 @@ import AboutPage         from './pages/AboutPage'
 import LoginPage         from './pages/LoginPage'
 import RegisterPage      from './pages/RegisterPage'
 import HistoryPage       from './pages/HistoryPage'
+import AdminRoute       from './components/AdminRoute'
+import AdminDashboard   from './pages/admin/AdminDashboard'
+import AdminUsers       from './pages/admin/AdminUsers'
+import AdminSearches    from './pages/admin/AdminSearches'
 import './App.css'
 
 function App() {
@@ -46,12 +49,31 @@ function App() {
                 <Link to="/">Go Home</Link>
               </div>
             } />
-
+            {/* Admin routes — only accessible to logged in admins */}
+            <Route path="/admin" element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            } />
+            <Route path="/admin/users" element={
+              <AdminRoute>
+                <AdminUsers />
+              </AdminRoute>
+            } />
+            <Route path="/admin/searches" element={
+              <AdminRoute>
+                <AdminSearches />
+              </AdminRoute>
+            } />
           </Routes>
         </main>
       </div>
+      
     </AuthProvider>
   )
+
+
+  
 }
 
 export default App

@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth }              from '../context/AuthContext'
 
 function Navbar() {
-  const { isLoggedIn, user, logout } = useAuth()
+  const { isLoggedIn, isAdmin, user, logout } = useAuth()
   const navigate = useNavigate()
 
   function handleLogout() {
@@ -32,24 +32,31 @@ function Navbar() {
           Find a Gift
         </NavLink>
 
-        {/* Only show these links if logged in */}
-        {isLoggedIn && (
-          <NavLink
-            to="/history"
-            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-          >
-            History
-          </NavLink>
-        )}
+              {/* Only show these links if logged in */}
+              {isLoggedIn && (
+                <NavLink
+                  to="/history"
+                  className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                >
+                  History
+                </NavLink>
+              )}
 
+              <NavLink
+                to="/about"
+                className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+              >
+                About
+              </NavLink>
+            </div>
+              {isLoggedIn && isAdmin && (
         <NavLink
-          to="/about"
-          className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          to="/admin"
+          className={({ isActive }) => isActive ? 'nav-link active admin-link' : 'nav-link admin-link'}
         >
-          About
+          ⚙️ Admin
         </NavLink>
-      </div>
-
+      )}
       {/* Right side — show user info or login button */}
       <div className="nav-auth">
         {isLoggedIn ? (

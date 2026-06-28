@@ -34,7 +34,8 @@ function SearchPage() {
         occasion:         formData.occasion,
         relationship:     formData.relationship,
         date_of_birth:    formData.date_of_birth,
-        personality_notes: formData.personality_notes
+        personality_notes: formData.personality_notes,
+        gender:            formData.gender || null
       }
     })
 

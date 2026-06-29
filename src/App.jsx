@@ -1,5 +1,6 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { AuthProvider }  from './context/AuthContext'
+import AdminLayout from './components/AdminLayout'
 import Navbar            from './components/Navbar'
 import ProtectedRoute    from './components/ProtectedRoute'
 import HomePage          from './pages/HomePage'
@@ -15,14 +16,22 @@ import AdminUsers       from './pages/admin/AdminUsers'
 import AdminSearches    from './pages/admin/AdminSearches'
 import './App.css'
 
+
+
 function App() {
+    const location = useLocation()
+
+    const isAdminRoute = location.pathname.startsWith('/admin')
+
   return (
     // AuthProvider wraps everything
     // Every component inside can access auth state
+    
+
     <AuthProvider>
-      <div className="app">
-        <Navbar />
-        <main className="app-main">
+      <div className={isAdminRoute ? 'admin-shell-wrapper' : 'app'}>
+      {!isAdminRoute && <Navbar />}
+      <main className={isAdminRoute ? 'admin-shell-main' : 'app-main'}>
           <Routes>
 
             {/* Public routes — anyone can access */}
@@ -49,20 +58,29 @@ function App() {
                 <Link to="/">Go Home</Link>
               </div>
             } />
-            {/* Admin routes — only accessible to logged in admins */}
+            {/* Admin routes — only accessible to logged in admins 
+            // Update your admin routes — each one wraps its page in AdminLayout */}
             <Route path="/admin" element={
               <AdminRoute>
-                <AdminDashboard />
+                <AdminLayout>
+                  <AdminDashboard />
+                </AdminLayout>
               </AdminRoute>
             } />
+
             <Route path="/admin/users" element={
               <AdminRoute>
-                <AdminUsers />
+                <AdminLayout>
+                  <AdminUsers />
+                </AdminLayout>
               </AdminRoute>
             } />
+
             <Route path="/admin/searches" element={
               <AdminRoute>
-                <AdminSearches />
+                <AdminLayout>
+                  <AdminSearches />
+                </AdminLayout>
               </AdminRoute>
             } />
           </Routes>

@@ -39,8 +39,8 @@ export function AuthProvider({ children }) {
   const login = (userData, userToken) => {
     setUser(userData)
     setToken(userToken)
-    localStorage.setItem('giftmap_token', userToken)
-    localStorage.setItem('giftmap_user', JSON.stringify(userData))
+    localStorage.setItem('gbyt_token', userToken)
+    localStorage.setItem('gbyt_user', JSON.stringify(userData))
   }
 
   // Called when user clicks logout
@@ -48,8 +48,8 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setUser(null)
     setToken(null)
-    localStorage.removeItem('giftmap_token')
-    localStorage.removeItem('giftmap_user')
+    localStorage.removeItem('gbyt_token')
+    localStorage.removeItem('gbyt_user')
   }
 
   // The value object is what every component receives

@@ -70,7 +70,7 @@ function GiftForm({ onSubmit, isLoading }) {
   // Step 2 fields
   const [recipientName,     setRecipientName]     = useState('')
   const [relationship,      setRelationship]      = useState('')
-  const [gender, setGender] = useState('')
+  const [gender,                  setGender]      = useState('')
   const [dateOfBirth,       setDateOfBirth]       = useState('')
   const [personalityNotes,  setPersonalityNotes]  = useState('')
 

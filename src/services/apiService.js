@@ -72,3 +72,20 @@ export async function deleteGiftSearch(id, token) {
     method: 'DELETE'
   }, token)
 }
+
+
+// ── ADMIN ENDPOINTS ────────────────────────────────────────
+// These follow the same authFetch pattern as all other
+// API calls — token is passed through, errors bubble up cleanly
+
+export async function getAdminMetrics(token) {
+  return authFetch('/admin/metrics', {}, token)
+}
+
+export async function getAdminUsers(token) {
+  return authFetch('/admin/users', {}, token)
+}
+
+export async function getAdminSearches(token) {
+  return authFetch('/admin/searches', {}, token)
+}
